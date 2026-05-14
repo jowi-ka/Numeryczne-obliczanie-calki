@@ -1,6 +1,0 @@
-Wyniki dla przedzialu [1.00, 2.00]
-Liczba podprzedzialow: -858993460
-
-Metoda Prostokatow: 0.000000
-Metoda Trapezow:    0.000000
-Metoda Monte Carlo: 0.000000
