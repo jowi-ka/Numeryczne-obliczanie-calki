@@ -3,11 +3,22 @@
 #include <stdlib.h>
 #include "integration.h"
 
+// --- Prototypy funkcji pomocniczych ---
 void zamienLiczby(double* a, double* b);
 void wyczyscBufor();
-void walidujGranice(DaneWejscioweCalkowania* dane);
-void wczytajWariantObliczen(DaneWejscioweCalkowania* dane);
+double pobierzDouble(const char* komunikat);
+double pobierzDodatniDouble(const char* komunikat);
+int pobierzInt(const char* komunikat);
+int pobierzDodatniInt(const char* komunikat);
+int pobierzDecyzjeUzytkownika();
 
+// --- Prototypy funkcji logicznych i wejścia/wyjścia ---
+DaneWejscioweCalkowania wczytajDane();
+int obsluzBladGranic(DaneWejscioweCalkowania* dane);
+void wczytajGranice(DaneWejscioweCalkowania* dane);
+void wczytajWariantObliczen(DaneWejscioweCalkowania* dane);
+void wyswietlRaport(DaneWejscioweCalkowania dane, double wynikMetodyProstokatow, double wynikMetodyTrapezow, double wynikMetodyMonteCarlo);
+void zapiszWynikiDoPliku(DaneWejscioweCalkowania dane, double wynikMetodyProstokatow, double wynikMetodyTrapezow, double wynikMetodyMonteCarlo);
 
 void wyczyscBufor() {
 	int c;
@@ -20,11 +31,24 @@ void zamienLiczby(double* a, double* b) {
 	*b = temp;
 }
 
-double pobierzLiczbe(const char* komunikat) {
+double pobierzDouble(const char* komunikat) {
 	double wartosc;
 	while (1) {
 		printf("%s", komunikat);
 		if (scanf("%lf", &wartosc) == 1) {
+			wyczyscBufor();
+			return wartosc;
+		}
+		printf("Blad: To nie jest liczba!\n");
+		wyczyscBufor();
+	}
+}
+int pobierzInt(const char* komunikat) {
+	int wartosc;
+	while (1) {
+		printf("%s", komunikat);
+		if (scanf("%d", &wartosc) == 1) {
+			wyczyscBufor();
 			return wartosc;
 		}
 		printf("Blad: To nie jest liczba!\n");
@@ -32,79 +56,77 @@ double pobierzLiczbe(const char* komunikat) {
 	}
 }
 
-int obsluzBladGranic(DaneWejscioweCalkowania* dane) {
-	int decyzja;
-	printf("\nBlad! Poczatek przedzialu (%.2f) jest wiekszy niz koniec (%.2f)\n",
-		dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
-
+int pobierzDodatniInt(const char* komunikat) {
+	int wartosc;
 	while (1) {
-		printf("\nCo chcesz zrobić?\n");
-		printf("[1] Zamien automatycznie granice miejscami\n[2] Wpisz granice ponownie\n");
-		printf("Twoj wybor: ");
+		wartosc = pobierzInt(komunikat);
+		if (wartosc > 0) return wartosc;
+		printf("Blad: Liczba musi byc wieksza od 0!\n");
+	}
+}
 
-		if (scanf("%d", &decyzja) != 1) {
-			printf("Blad: To nie jest liczba!\n");
-			wyczyscBufor();
-			continue;
-		}
+double pobierzDodatniDouble(const char* komunikat) {
+	double wartosc;
+	while (1) {
+		wartosc = pobierzDouble(komunikat);
+		if (wartosc > 0) return wartosc;
+		printf("Blad: Wartosc musi byc dodatnia!\n");
+	}
+}
 
-		if (decyzja == 1) {
-			zamienLiczby(&dane->poczatekPrzedzialu, &dane->koniecPrzedzialu);
-			return 1; // Naprawione (sukces)
-		}
-		else if (decyzja == 2) {
-			return 0; // Wpisz ponownie (brak sukcesu)
-		}
+int pobierzDecyzjeUzytkownika() {
+	int decyzja;
+	while (1) {
+		decyzja = pobierzInt("Twoj wybor: ");
+		if (decyzja == 1 || decyzja == 2) return decyzja;
 		printf("Blad: Wybierz 1 lub 2.\n");
 	}
+	return decyzja;
+}
+
+int obsluzBladGranic(DaneWejscioweCalkowania* dane) {
+	printf("\nCo chcesz zrobic?\n");
+	printf("[1] Zamien automatycznie granice miejscami\n[2] Wpisz granice ponownie\n");
+	printf("Twoj wybor: ");
+
+	int decyzja = pobierzDecyzjeUzytkownika();
+
+	if (decyzja == 1) {
+		zamienLiczby(&dane->poczatekPrzedzialu, &dane->koniecPrzedzialu);
+		return 1; 
+	}
+	return 0; 
 }
 
 void wczytajGranice(DaneWejscioweCalkowania* dane) {
 	int sukces = 0;
 	while (!sukces) {
-		dane->poczatekPrzedzialu = pobierzLiczbe("\nPodaj poczatek przedzialu: ");
-		dane->koniecPrzedzialu = pobierzLiczbe("Podaj koniec przedzialu: ");
+		dane->poczatekPrzedzialu = pobierzDouble("\nPodaj poczatek przedzialu: ");
+		dane->koniecPrzedzialu = pobierzDouble("Podaj koniec przedzialu: ");
 
 		if (dane->poczatekPrzedzialu > dane->koniecPrzedzialu) {
+			printf("\nBlad! Poczatek przedzialu (%.2f) jest wiekszy niz koniec (%.2f)\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
 			sukces = obsluzBladGranic(dane);
 		}
 		else {
 			sukces = 1;
 		}
-
-		if (sukces) {
-			printf("\nWYBRANE GRANICE PRZEDZIAŁU TO: [%.2f, %.2f]\n",
-				dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
-		}
 	}
 }
 
-
 void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
-	int wariant;
-	double dokladnosc;
-
+	printf("\nWYBRANE GRANICE PRZEDZIAŁU TO: [%.2f, %.2f]\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
 	printf("\n~~~~ Dostepne warianty obliczen ~~~~\n");
-	printf("1. Obliczenia dla zadanej liczby podprzedzialow (n)\n");
-	printf("2. Obliczenia dla zadanej dokladnosci \n");
+	printf("1. Liczba podprzedzialow (n)\n2. Zadana dokladnosc\n");
 	printf("Wybierz opcje: ");
-	scanf(" %d", &wariant);
 
-	if (wariant == 1) {
-		// Wariant A: Obliczanie na podstawie wprowadzonej przez użytkownika liczby podprzedziałów
-		printf("Podaj dodatnią liczbę podprzedzialow: ");
-		scanf(" %d", &dane->liczbaPodprzedzialow);
-
-	}
-	else if (wariant == 2) {
-		// Wariant B: Obliczanie na podstawie wprowadzonej przez użytkownika dokładności
-		printf("Podaj wymagana dokladnosc: ");
-		scanf(" %lf", &dokladnosc);
-		dane->liczbaPodprzedzialow = (int)(1.0 / dokladnosc); // Uproszczone wyznaczanie podprzedziałów
-
+	if (pobierzDecyzjeUzytkownika() == 1) {
+		dane->liczbaPodprzedzialow = pobierzDodatniInt("Podaj liczbe podprzedzialow: ");
 	}
 	else {
-		printf("Blad: Nieprawidlowy wybor wariantu.\n");
+		double dokladnosc = pobierzDodatniDouble("Podaj wymagana dokladnosc: ");
+		dane->liczbaPodprzedzialow = (int)(1.0 / dokladnosc);
+		if (dane->liczbaPodprzedzialow == 0) dane->liczbaPodprzedzialow = 1;
 	}
 }
 
@@ -137,5 +159,9 @@ void zapiszWynikiDoPliku(DaneWejscioweCalkowania dane, double wynikMetodyProstok
 		fprintf(plik, "Metoda Monte Carlo: %f\n", wynikMetodyMonteCarlo);
 		fclose(plik);
 		printf("\nWyniki zostaly zapisane do pliku wyniki.txt\n");
+	}
+	else {
+		perror("Nie udalo sie otworzyc pliku do zapisu");
+		return;
 	}
 }
