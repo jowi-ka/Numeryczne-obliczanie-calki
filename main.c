@@ -3,20 +3,23 @@
 
 
 int main() {
-
+	const char* nazwyMetod[] = {
+		"Metoda Prostokatow",
+		"Metoda Trapezow",
+		"Metoda Monte Carlo"
+	};
+	
 	printf("~~~~ PROJEKT 20: NUMERYCZNE OBLICZANIE CALKI ~~~~\n\n");
 	DaneWejscioweCalkowania daneWejsciowe = wczytajDane();
-
-	double wynikMetodyProstokatow = obliczMetodaProstokatow(daneWejsciowe);
-	double wynikMetodyTrapezow = obliczMetodaTrapezow(daneWejsciowe);
-	double wynikMetodyMonteCarlo = obliczMetodaMonteCarlo(daneWejsciowe);
-
-	// Prezentacja wyników w konsoli.
-	wyswietlRaport(daneWejsciowe, wynikMetodyProstokatow, wynikMetodyTrapezow, wynikMetodyMonteCarlo);
-
-	// Zapis wyników do pliku
-	zapiszWynikiDoPliku(daneWejsciowe, wynikMetodyProstokatow, wynikMetodyTrapezow, wynikMetodyMonteCarlo);
 	
+
+	double wyniki[3];
+	wyniki[0] = obliczMetodaProstokatow(daneWejsciowe);
+	wyniki[1] = obliczMetodaTrapezow(daneWejsciowe);
+	wyniki[2] = obliczMetodaMonteCarlo(daneWejsciowe);
+
+	generujRaport(stdout, &daneWejsciowe, wyniki, nazwyMetod, 3);
+	zapiszWynikiDoPliku(&daneWejsciowe, wyniki, nazwyMetod, 3);
 
 	return 0;
 }

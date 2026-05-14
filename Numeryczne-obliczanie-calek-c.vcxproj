@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="integration.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="ui_handler.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="integration.h" />
