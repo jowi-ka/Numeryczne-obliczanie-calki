@@ -129,10 +129,13 @@
   <ItemGroup>
     <ClCompile Include="integration.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="reports.c" />
     <ClCompile Include="ui_handler.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="integration.h" />
+    <ClInclude Include="reports.h" />
+    <ClInclude Include="ui_handler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

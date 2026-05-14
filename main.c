@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "integration.h"
+#include "reports.h"
+#include "ui_handler.h"
 
 
 int main() {
@@ -10,7 +12,8 @@ int main() {
 	};
 
 	printf("~~~~ PROJEKT 20: NUMERYCZNE OBLICZANIE CALKI ~~~~\n\n");
-	DaneWejscioweCalkowania daneWejsciowe = wczytajDane();
+	DaneWejscioweCalkowania daneWejsciowe;
+	wczytajDane(&daneWejsciowe);
 
 
 	double wyniki[3];

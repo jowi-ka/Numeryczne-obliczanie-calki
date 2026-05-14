@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "integration.h"
+#include "ui_handler.h"
 
 #define MIN_ZAKRES -1000000.0
 #define MAX_ZAKRES 1000000.0
@@ -20,7 +21,7 @@ static void zamienLiczby(double* a, double* b) {
 	*b = temp;
 }
 
-static double wczytajLiczbe(const char* komunikat, double min, double max) {
+double wczytajLiczbe(const char* komunikat, double min, double max) {
 	double wartosc;
 	while (1) {
 		printf("%s: ", komunikat);
@@ -78,44 +79,13 @@ static void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
 	}
 }
 
-DaneWejscioweCalkowania wczytajDane() {
-	DaneWejscioweCalkowania dane;
+void wczytajDane(DaneWejscioweCalkowania* dane) {
+	if (dane == NULL) return;
+
 	printf("========================================\n");
-	printf("   KONFIGURACJA PARAMETRÓW OBLICZEŃ     \n");
-	printf("========================================\n");
-	wczytajGranice(&dane);
-	wczytajWariantObliczen(&dane);
-	return dane;
-}
+	printf("   KONFIGURACJA PARAMETROW OBLICZEN    \n");
+	printf("========================================\n\n");
 
-void generujRaport(FILE* strumien, const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod) {
-	fprintf(strumien, "\n--- RAPORT OBLICZEN NUMERYCZNYCH ---\n");
-	fprintf(strumien, "Przedzial: [%.2f, %.2f]\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
-
-	if (dane->wariant == METODA_PRZEDZIALY) {
-		fprintf(strumien, "Parametr: Liczba podprzedzialow n = %d\n\n", dane->liczbaPodprzedzialow);
-	}
-	else {
-		fprintf(strumien, "Parametr: Dokladnosc epsilon = %f\n\n", dane->epsilon);
-	}
-
-	fprintf(strumien, "+---------------------------+--------------------+\n");
-	fprintf(strumien, "| %-25s | %-18s |\n", "Metoda calkowania", "Wynik");
-	fprintf(strumien, "+---------------------------+--------------------+\n");
-
-	for (int i = 0; i < liczbaMetod; i++) {
-		fprintf(strumien, "| %-25s | %18.10f |\n", nazwyMetod[i], wyniki[i]);
-	}
-	fprintf(strumien, "+---------------------------+--------------------+\n\n");
-}
-
-void zapiszWynikiDoPliku(const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod) {
-	FILE* plik = fopen("wyniki.txt", "w");
-	if (!plik) {
-		perror("Nie udalo sie otworzyc pliku do zapisu");
-		return;
-	}
-	generujRaport(plik, dane, wyniki, nazwyMetod, liczbaMetod);
-	fclose(plik);
-	printf("\nWyniki zostaly zapisane do pliku wyniki.txt\n");
+	wczytajGranice(dane);
+	wczytajWariantObliczen(dane);
 }
