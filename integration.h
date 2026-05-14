@@ -19,7 +19,7 @@ typedef struct {
 // Funkcje UI
 DaneWejscioweCalkowania wczytajDane();
 void generujRaport(FILE* strumien, const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod);
-void zapiszWynikiDoPliku(const DaneWejscioweCalkowania* dane, double* wyniki, const char nazwyMetod, int liczbaMetod);
+void zapiszWynikiDoPliku(const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod);
 // Funkcje obliczeniowe 
 double obliczMetodaProstokatow(DaneWejscioweCalkowania dane);
 double obliczMetodaTrapezow(DaneWejscioweCalkowania dane);

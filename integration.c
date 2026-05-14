@@ -87,4 +87,3 @@ double obliczMetodaMonteCarlo(DaneWejscioweCalkowania dane) {
         return akt;
     }
 }
-  

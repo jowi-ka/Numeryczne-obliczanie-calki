@@ -8,11 +8,10 @@ int main() {
 		"Metoda Trapezow",
 		"Metoda Monte Carlo"
 	};
-	
+
 	printf("~~~~ PROJEKT 20: NUMERYCZNE OBLICZANIE CALKI ~~~~\n\n");
-	DaneWejscioweCalkowania daneWejsciowe;
-	wczytajDane(&daneWejsciowe);
-	
+	DaneWejscioweCalkowania daneWejsciowe = wczytajDane();
+
 
 	double wyniki[3];
 	wyniki[0] = obliczMetodaProstokatow(daneWejsciowe);
