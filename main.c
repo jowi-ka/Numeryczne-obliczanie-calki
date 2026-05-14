@@ -4,7 +4,8 @@
 
 int main() {
 
-	DaneWejscioweCalkowania daneWejsciowe = pobierzDane();
+	printf("~~~~ PROJEKT 20: NUMERYCZNE OBLICZANIE CALKI ~~~~\n\n");
+	DaneWejscioweCalkowania daneWejsciowe = wczytajDane();
 
 	double wynikMetodyProstokatow = obliczMetodaProstokatow(daneWejsciowe);
 	double wynikMetodyTrapezow = obliczMetodaTrapezow(daneWejsciowe);

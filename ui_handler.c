@@ -1,45 +1,121 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include "integration.h"
 
-DaneWejscioweCalkowania pobierzDane() {
+void zamienLiczby(double* a, double* b);
+void wyczyscBufor();
+void walidujGranice(DaneWejscioweCalkowania* dane);
+void wczytajWariantObliczen(DaneWejscioweCalkowania* dane);
 
-	// Deklaracja zmiennych
-	DaneWejscioweCalkowania dane;
-	int wyborWariantu;
-	double zadanaDokladnosc;
 
-	// Interfejs użytkownika wraz z pobraniem danych wejściowych
-	printf("~~~~ PROJEKT 20: NUMERYCZNE OBLICZANIE CALKI ~~~~\n");
+void wyczyscBufor() {
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF);
+}
 
-	printf("Podaj poczatek przedzialu: \n");
-	scanf(" %lf", &dane.poczatekPrzedzialu);
+void zamienLiczby(double* a, double* b) {
+	double temp = *a;
+	*a = *b;
+	*b = temp;
+}
 
-	printf("Podaj koniec przedzialu: ");
-	scanf(" %lf", &dane.koniecPrzedzialu);
+double pobierzLiczbe(const char* komunikat) {
+	double wartosc;
+	while (1) {
+		printf("%s", komunikat);
+		if (scanf("%lf", &wartosc) == 1) {
+			return wartosc;
+		}
+		printf("Blad: To nie jest liczba!\n");
+		wyczyscBufor();
+	}
+}
+
+int obsluzBladGranic(DaneWejscioweCalkowania* dane) {
+	int decyzja;
+	printf("\nBlad! Poczatek przedzialu (%.2f) jest wiekszy niz koniec (%.2f)\n",
+		dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
+
+	while (1) {
+		printf("\nCo chcesz zrobić?\n");
+		printf("[1] Zamien automatycznie granice miejscami\n[2] Wpisz granice ponownie\n");
+		printf("Twoj wybor: ");
+
+		if (scanf("%d", &decyzja) != 1) {
+			printf("Blad: To nie jest liczba!\n");
+			wyczyscBufor();
+			continue;
+		}
+
+		if (decyzja == 1) {
+			zamienLiczby(&dane->poczatekPrzedzialu, &dane->koniecPrzedzialu);
+			return 1; // Naprawione (sukces)
+		}
+		else if (decyzja == 2) {
+			return 0; // Wpisz ponownie (brak sukcesu)
+		}
+		printf("Blad: Wybierz 1 lub 2.\n");
+	}
+}
+
+void wczytajGranice(DaneWejscioweCalkowania* dane) {
+	int sukces = 0;
+	while (!sukces) {
+		dane->poczatekPrzedzialu = pobierzLiczbe("\nPodaj poczatek przedzialu: ");
+		dane->koniecPrzedzialu = pobierzLiczbe("Podaj koniec przedzialu: ");
+
+		if (dane->poczatekPrzedzialu > dane->koniecPrzedzialu) {
+			sukces = obsluzBladGranic(dane);
+		}
+		else {
+			sukces = 1;
+		}
+
+		if (sukces) {
+			printf("\nWYBRANE GRANICE PRZEDZIAŁU TO: [%.2f, %.2f]\n",
+				dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
+		}
+	}
+}
+
+
+void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
+	int wariant;
+	double dokladnosc;
 
 	printf("\n~~~~ Dostepne warianty obliczen ~~~~\n");
 	printf("1. Obliczenia dla zadanej liczby podprzedzialow (n)\n");
 	printf("2. Obliczenia dla zadanej dokladnosci \n");
 	printf("Wybierz opcje: ");
-	scanf(" %d", &wyborWariantu);
+	scanf(" %d", &wariant);
 
-	if (wyborWariantu == 1) {
+	if (wariant == 1) {
 		// Wariant A: Obliczanie na podstawie wprowadzonej przez użytkownika liczby podprzedziałów
-		printf("Podaj liczbę podprzedzialow: ");
-		scanf(" %d", &dane.liczbaPodprzedzialow);
+		printf("Podaj dodatnią liczbę podprzedzialow: ");
+		scanf(" %d", &dane->liczbaPodprzedzialow);
 
 	}
-	else if (wyborWariantu == 2) {
+	else if (wariant == 2) {
 		// Wariant B: Obliczanie na podstawie wprowadzonej przez użytkownika dokładności
 		printf("Podaj wymagana dokladnosc: ");
-		scanf(" %lf", &zadanaDokladnosc);
-		dane.liczbaPodprzedzialow = (int)(1.0 / zadanaDokladnosc); // Uproszczone wyznaczanie podprzedziałów
+		scanf(" %lf", &dokladnosc);
+		dane->liczbaPodprzedzialow = (int)(1.0 / dokladnosc); // Uproszczone wyznaczanie podprzedziałów
 
 	}
 	else {
 		printf("Blad: Nieprawidlowy wybor wariantu.\n");
 	}
+}
+
+
+DaneWejscioweCalkowania wczytajDane() {
+
+	// Deklaracja zmiennych
+	DaneWejscioweCalkowania dane;
+	// Pobranie granic przedziałów
+	wczytajGranice(&dane);
+	wczytajWariantObliczen(&dane);
 
 	return dane;
 }

@@ -9,7 +9,7 @@ typedef struct {
 }DaneWejscioweCalkowania;
 
 // Funkcje UI
-DaneWejscioweCalkowania pobierzDane();
+DaneWejscioweCalkowania wczytajDane();
 void wyswietlRaport(DaneWejscioweCalkowania dane, double wynikMetodyProstokatow, double wynikMetodyTrapezow, double wynikMetodyMonteCarlo);
 void zapiszWynikiDoPliku(DaneWejscioweCalkowania dane, double wynikMetodyProstokatow, double wynikMetodyTrapezow, double wynikMetodyMonteCarlo);
 
