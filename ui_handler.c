@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include "integration.h"
 
+#define MIN_ZAKRES -1000000.0
+#define MAX_ZAKRES 1000000.0
+#define MIN_EPSILON 0.0000001
+#define MAX_EPSILON 1.0
+#define MAX_PODPRZEDZIALOW 10000000
 
 // --- Prototypy funkcji pomocniczych ---
 static void wyczyscBufor(void);
@@ -16,6 +21,7 @@ void wczytajGranice(DaneWejscioweCalkowania* dane);
 void wczytajWariantObliczen(DaneWejscioweCalkowania* dane);
 void generujRaport(FILE* strumien, const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod);
 void zapiszWynikiDoPliku(const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod);
+
 
 void wyczyscBufor() {
 	int c;
@@ -61,8 +67,8 @@ int obsluzBladGranic(DaneWejscioweCalkowania* dane) {
 void wczytajGranice(DaneWejscioweCalkowania* dane) {
 	int sukces = 0;
 	while (!sukces) {
-		dane->poczatekPrzedzialu = wczytajLiczbe("Podaj poczatek przedzialu", -1000000, 1000000);
-		dane->koniecPrzedzialu = wczytajLiczbe("Podaj koniec przedzialu", -1000000, 1000000);
+		dane->poczatekPrzedzialu = wczytajLiczbe("Podaj poczatek przedzialu", MIN_ZAKRES, MAX_ZAKRES);
+		dane->koniecPrzedzialu = wczytajLiczbe("Podaj koniec przedzialu", MIN_ZAKRES, MAX_ZAKRES);
 
 		if (dane->poczatekPrzedzialu > dane->koniecPrzedzialu) {
 			printf("\nBlad! Poczatek przedzialu (%.2f) jest wiekszy niz koniec (%.2f)\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
@@ -75,6 +81,7 @@ void wczytajGranice(DaneWejscioweCalkowania* dane) {
 }
 
 void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
+
 	printf("\nWYBRANE GRANICE PRZEDZIAŁU TO: [%.2f, %.2f]\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
 	printf("\n~~~~ Dostepne warianty obliczen ~~~~\n");
 	printf("[1] Liczba podprzedzialow (n)\n[2] Zadana dokladnosc (epsilon)\n");
@@ -83,11 +90,11 @@ void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
 
 	if (wybor == 1) {
 		dane->wariant = METODA_PRZEDZIALY;
-		dane->liczbaPodprzedzialow = (int)wczytajLiczbe("Podaj n", 1, 10000000);
+		dane->liczbaPodprzedzialow = (int)wczytajLiczbe("Podaj n", 1, MAX_PODPRZEDZIALOW);
 		dane->epsilon = 0;
 	} else {
 		dane->wariant = METODA_DOKLADNOSC; 
-		dane->epsilon = wczytajLiczbe("Podaj dokladnosc (np. 0.001)", 0.0000001, 1.0);
+		dane->epsilon = wczytajLiczbe("Podaj dokladnosc", MIN_EPSILON, MAX_EPSILON);
 		dane->liczbaPodprzedzialow = 0;
 	}
 }
