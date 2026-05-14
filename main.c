@@ -10,7 +10,8 @@ int main() {
 	};
 	
 	printf("~~~~ PROJEKT 20: NUMERYCZNE OBLICZANIE CALKI ~~~~\n\n");
-	DaneWejscioweCalkowania daneWejsciowe = wczytajDane();
+	DaneWejscioweCalkowania daneWejsciowe;
+	wczytajDane(&daneWejsciowe);
 	
 
 	double wyniki[3];
