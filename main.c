@@ -45,18 +45,18 @@ DaneWejscioweCalkowania pobierzDane() {
 	return dane;
 }
 
-void wyswietlRaport(DaneWejscioweCalkowania daneWejsciowe, double wynikMetodyProstokatow, double wynikMetodyTrapezow, double wynikMetodyMonteCarlo) {
-	printf("Wyniki dla n = %d\n", daneWejsciowe.liczbaPodprzedzialow);
+void wyswietlRaport(DaneWejscioweCalkowania dane, double wynikMetodyProstokatow, double wynikMetodyTrapezow, double wynikMetodyMonteCarlo) {
+	printf("Wyniki dla n = %d\n", dane.liczbaPodprzedzialow);
 	printf("Metoda Prostokatow: %.10f\n", wynikMetodyProstokatow);
 	printf("Metoda Trapezow:    %.10f\n", wynikMetodyTrapezow);
 	printf("Metoda Monte Carlo: %.10f\n", wynikMetodyMonteCarlo);
 }
 
-void zapiszWynikiDoPliku(DaneWejscioweCalkowania daneWejsciowe, double wynikMetodyProstokatow, double wynikMetodyTrapezow, double wynikMetodyMonteCarlo) {
+void zapiszWynikiDoPliku(DaneWejscioweCalkowania dane, double wynikMetodyProstokatow, double wynikMetodyTrapezow, double wynikMetodyMonteCarlo) {
 	FILE* plik = fopen("wyniki.txt", "w");
 	if (plik != NULL) {
-		fprintf(plik, "Wyniki dla przedzialu [%.2f, %.2f]\n", daneWejsciowe.poczatekPrzedzialu, daneWejsciowe.koniecPrzedzialu);
-		fprintf(plik, "Liczba podprzedzialow: %d\n\n", daneWejsciowe.liczbaPodprzedzialow);
+		fprintf(plik, "Wyniki dla przedzialu [%.2f, %.2f]\n", dane.poczatekPrzedzialu, dane.koniecPrzedzialu);
+		fprintf(plik, "Liczba podprzedzialow: %d\n\n", dane.liczbaPodprzedzialow);
 		fprintf(plik, "Metoda Prostokatow: %f\n", wynikMetodyProstokatow);
 		fprintf(plik, "Metoda Trapezow:    %f\n", wynikMetodyTrapezow);
 		fprintf(plik, "Metoda Monte Carlo: %f\n", wynikMetodyMonteCarlo);
