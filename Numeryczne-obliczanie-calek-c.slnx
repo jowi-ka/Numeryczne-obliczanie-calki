@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Numeryczne-obliczanie-calek-c.vcxproj" />
+  <Project Path="Numeryczne-obliczanie-calek-c.vcxproj" Id="25c5a197-c2fb-4abd-9347-4a3fec544027" />
 </Solution>
