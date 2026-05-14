@@ -13,12 +13,14 @@
 static void wyczyscBufor(void);
 static void zamienLiczby(double* a, double* b);
 static double wczytajLiczbe(const char* komunikat, double min, double max);
+static void wczytajWariantPrzedzialy(DaneWejscioweCalkowania* dane);
+static void wczytajWariantDokladnosc(DaneWejscioweCalkowania* dane);
 
 // --- Prototypy funkcji logicznych i wejścia/wyjścia ---
 DaneWejscioweCalkowania wczytajDane();
-int obsluzBladGranic(DaneWejscioweCalkowania* dane);
-void wczytajGranice(DaneWejscioweCalkowania* dane);
-void wczytajWariantObliczen(DaneWejscioweCalkowania* dane);
+static int obsluzBladGranic(DaneWejscioweCalkowania* dane);
+static void wczytajGranice(DaneWejscioweCalkowania* dane);
+static void wczytajWariantObliczen(DaneWejscioweCalkowania* dane);
 void generujRaport(FILE* strumien, const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod);
 void zapiszWynikiDoPliku(const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod);
 
@@ -51,7 +53,7 @@ double wczytajLiczbe(const char* komunikat, double min, double max) {
 }
 
 
-int obsluzBladGranic(DaneWejscioweCalkowania* dane) {
+static int obsluzBladGranic(DaneWejscioweCalkowania* dane) {
 	printf("\nCo chcesz zrobic?\n");
 	printf("[1] Zamien automatycznie granice miejscami\n[2] Wpisz granice ponownie\n");
 
@@ -64,7 +66,7 @@ int obsluzBladGranic(DaneWejscioweCalkowania* dane) {
 	return 0; 
 }
 
-void wczytajGranice(DaneWejscioweCalkowania* dane) {
+static void wczytajGranice(DaneWejscioweCalkowania* dane) {
 	int sukces = 0;
 	while (!sukces) {
 		dane->poczatekPrzedzialu = wczytajLiczbe("Podaj poczatek przedzialu", MIN_ZAKRES, MAX_ZAKRES);
@@ -80,7 +82,19 @@ void wczytajGranice(DaneWejscioweCalkowania* dane) {
 	}
 }
 
-void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
+static void wczytajWariantPrzedzialy(DaneWejscioweCalkowania* dane) {
+	dane->wariant = METODA_PRZEDZIALY;
+	dane->liczbaPodprzedzialow = (int)wczytajLiczbe("Podaj n", 1, MAX_PODPRZEDZIALOW);
+	dane->epsilon = 0;
+}
+
+static void wczytajWariantDokladnosc(DaneWejscioweCalkowania* dane) {
+	dane->wariant = METODA_DOKLADNOSC;
+	dane->epsilon = wczytajLiczbe("Podaj dokladnosc", MIN_EPSILON, MAX_EPSILON);
+	dane->liczbaPodprzedzialow = 0;
+}
+
+static void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
 
 	printf("\nWYBRANE GRANICE PRZEDZIAŁU TO: [%.2f, %.2f]\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
 	printf("\n~~~~ Dostepne warianty obliczen ~~~~\n");
@@ -89,13 +103,9 @@ void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
 	int wybor = (int)wczytajLiczbe("Twoj wybor", 1, 2);
 
 	if (wybor == 1) {
-		dane->wariant = METODA_PRZEDZIALY;
-		dane->liczbaPodprzedzialow = (int)wczytajLiczbe("Podaj n", 1, MAX_PODPRZEDZIALOW);
-		dane->epsilon = 0;
+		wczytajWariantPrzedzialy(dane);
 	} else {
-		dane->wariant = METODA_DOKLADNOSC; 
-		dane->epsilon = wczytajLiczbe("Podaj dokladnosc", MIN_EPSILON, MAX_EPSILON);
-		dane->liczbaPodprzedzialow = 0;
+		wczytajWariantDokladnosc(dane);
 	}
 }
 
