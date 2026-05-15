@@ -24,31 +24,51 @@ static void zamienLiczby(double* a, double* b) {
 	*b = temp;
 }
 
-static bool czyWZakresie(double x, double min, double max) {
+static bool czyGranicePoprawne(double poczatekPrzedzialu, double koniecPrzedzialu) {
+	return poczatekPrzedzialu <= koniecPrzedzialu;
+}
+
+static bool czyWZakresieDouble(double x, double min, double max) {
 	return x >= min && x <= max;
 }
 
-static int wczytajDouble(double* wartosc) {
-	if (scanf("%lf", wartosc) == 1) {
+static bool czyWZakresieInt(int x, int min, int max) {
+	return x >= min && x <= max;
+}
+
+static bool czyPobranoDouble(double* wartosc) {
+	
+	if (scanf("%lf", wartosc) != 1) {
 		wyczyscBufor();
-		return 1;
+		return false;
 	}
 
 	wyczyscBufor();
-	return 0;
+	return true;
 }
 
-static double wczytajLiczbe(const char* komunikat, double min, double max) {
+static bool czyPobranoInt(int* wartosc) {
+
+	if (scanf("%d", wartosc) != 1) {
+		wyczyscBufor();
+		return false;
+	}
+
+	wyczyscBufor();
+	return true;
+}
+
+static double wczytajLiczbeDouble(const char* komunikat, double min, double max) {
 	double wartosc;
 	while (1) {
 		printf("%s: ", komunikat);
 		
-		if (!wczytajDouble(&wartosc)) {
+		if (!czyPobranoDouble(&wartosc)) {
 			printf("Blad: To nie jest liczba!\n");
 			continue;
 		}
 
-		if (!czyWZakresie(wartosc, min, max)) {
+		if (!czyWZakresieDouble(wartosc, min, max)) {
 			printf("Blad: Poza zakresem [%.2f, %.2f]\n", min, max);
 			continue;
 		}
@@ -57,58 +77,71 @@ static double wczytajLiczbe(const char* komunikat, double min, double max) {
 	}
 }
 
-static int pokazMenu(
-	const char* tytul,
-	const char* opcje[],
-	int liczbaOpcji)
-{
-	printf("\n%s\n", tytul);
+static int wczytajLiczbeInt(const char* komunikat, int min, int max) {
+    int wartosc;
+    while (1) {
+        printf("%s: ", komunikat);
 
+        if (!czyPobranoInt(&wartosc)) {
+            printf("Blad: To nie jest liczba calkowita!\n");
+            continue;
+        }
+
+		if (!czyWZakresieInt(wartosc, min, max)) {
+            printf("Blad: Poza zakresem [%d, %d]\n", min, max);
+            continue;
+        }
+
+        return wartosc;
+    }
+}
+
+static void wyswietlMenu(const char* tytul, const char* opcje[], int liczbaOpcji) {
+	printf("\n%s\n", tytul);
 	for (int i = 0; i < liczbaOpcji; i++) {
 		printf("[%d] %s\n", i + 1, opcje[i]);
 	}
-
-	return (int)wczytajLiczbe(
-		"Twoj wybor",
-		1,
-		liczbaOpcji
-	);
 }
 
-static int obsluzBladGranic(DaneWejscioweCalkowania* dane) {
-	printf("\nBlad! Poczatek przedzialu (%.2f) jest wiekszy niz koniec (%.2f)\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
+
+static void obsluzBladGranic(DaneWejscioweCalkowania* dane) {
+	printf("\nBlad! Poczatek przedzialu (%.2f) jest wiekszy niz koniec (%.2f)\n",
+		dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
 
 	const char* opcje[] = {
 		"Zamien automatycznie granice miejscami",
 		"Wpisz granice ponownie"
 	};
 
-	int wybor = pokazMenu(
-		"Co chcesz zrobic?",
-		opcje,
-		sizeof(opcje) / sizeof(opcje[0])
-	);
+	wyswietlMenu("Co chcesz zrobic?", opcje, 2);
+
+	int wybor = wczytajLiczbeInt("Twoj wybor", 1, 2);
 
 	if (wybor == 1) {
 		zamienLiczby(&dane->poczatekPrzedzialu, &dane->koniecPrzedzialu);
-
 		printf("\nZamieniono granice.\n");
 	}
-
-
-	return (wybor == 1);
 }
 
+static void pobierzGranice(double* poczatekPrzedzialu, double* koniecPrzedzialu) {
+	*poczatekPrzedzialu = wczytajLiczbeDouble("Podaj poczatek przedzialu", MIN_ZAKRES, MAX_ZAKRES);
+	*koniecPrzedzialu = wczytajLiczbeDouble("Podaj koniec przedzialu", MIN_ZAKRES, MAX_ZAKRES);
+}
+
+
 static void wczytajGranice(DaneWejscioweCalkowania* dane) {
-	while (1) {
-		dane->poczatekPrzedzialu = wczytajLiczbe("Podaj poczatek przedzialu", MIN_ZAKRES, MAX_ZAKRES);
-		dane->koniecPrzedzialu = wczytajLiczbe("Podaj koniec przedzialu", MIN_ZAKRES, MAX_ZAKRES);
 
-		if (dane->poczatekPrzedzialu <= dane->koniecPrzedzialu || obsluzBladGranic(dane))
-			break;
+	pobierzGranice(&dane->poczatekPrzedzialu, &dane->koniecPrzedzialu);
+
+	while (!czyGranicePoprawne(dane->poczatekPrzedzialu, dane->koniecPrzedzialu)) {
+
+		obsluzBladGranic(dane);
+
+		if (!czyGranicePoprawne(dane->poczatekPrzedzialu, dane->koniecPrzedzialu)) {
+			pobierzGranice(&dane->poczatekPrzedzialu, &dane->koniecPrzedzialu);
+		}
 	}
-
-	printf("Aktualny przedzial: [%.2f, %.2f]\n",
+	printf("Przedzial do obliczen: [%.2f, %.2f]\n",
 		dane->poczatekPrzedzialu,
 		dane->koniecPrzedzialu);
 }
@@ -119,20 +152,23 @@ static void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
 	"Zadana dokladnosc"
 	};
 
-	int wybor = pokazMenu(
+	int liczbaOpcji = sizeof(opcje) / sizeof(opcje[0]);
+	
+	wyswietlMenu(
 		"~~~~ Dostepne warianty obliczen ~~~~",
 		opcje,
-		sizeof(opcje) / sizeof(opcje[0])
-	);
+		liczbaOpcji);
+
+	int wybor = wczytajLiczbeInt("Twoj wybor", 1, liczbaOpcji);
 
 	if (wybor == 1) {
 		dane->wariant = METODA_PRZEDZIALY;
-		dane->liczbaPodprzedzialow = (int)wczytajLiczbe("Podaj n", 1, MAX_PODPRZEDZIALOW);
+		dane->liczbaPodprzedzialow = wczytajLiczbeInt("Podaj n", 1, MAX_PODPRZEDZIALOW);
 		dane->epsilon = 0;
 	}
 	else {
 		dane->wariant = METODA_DOKLADNOSC;
-		dane->epsilon = wczytajLiczbe("Podaj dokladnosc", MIN_EPSILON, MAX_EPSILON);
+		dane->epsilon = wczytajLiczbeDouble("Podaj dokladnosc", MIN_EPSILON, MAX_EPSILON);
 		dane->liczbaPodprzedzialow = 0;
 	}
 }
