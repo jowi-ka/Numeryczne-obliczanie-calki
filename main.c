@@ -2,6 +2,7 @@
 #include "integration.h"
 #include "reports.h"
 #include "ui_handler.h"
+#include <time.h>
 
 
 int main() {
@@ -13,6 +14,7 @@ int main() {
 
 	printf("~~~~ PROJEKT 20: NUMERYCZNE OBLICZANIE CALKI ~~~~\n\n");
 	DaneWejscioweCalkowania daneWejsciowe;
+	srand((unsigned int)time(NULL));
 	wczytajDane(&daneWejsciowe);
 
 

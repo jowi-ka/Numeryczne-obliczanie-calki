@@ -1,7 +1,6 @@
 #ifndef INTEGRATION_H
 #define INTEGRATION_H
 #define LICZBA_METOD 3
-#include <stdio.h> 
 
 
 typedef enum {
