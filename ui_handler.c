@@ -21,7 +21,7 @@ static void zamienLiczby(double* a, double* b) {
 	*b = temp;
 }
 
-double wczytajLiczbe(const char* komunikat, double min, double max) {
+static double wczytajLiczbe(const char* komunikat, double min, double max) {
 	double wartosc;
 	while (1) {
 		printf("%s: ", komunikat);
@@ -38,8 +38,7 @@ double wczytajLiczbe(const char* komunikat, double min, double max) {
 }
 
 static int obsluzBladGranic(DaneWejscioweCalkowania* dane) {
-	printf("\nBlad! Poczatek przedzialu (%.2f) jest wiekszy niz koniec (%.2f)\n",
-		dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
+	printf("\nBlad! Poczatek przedzialu (%.2f) jest wiekszy niz koniec (%.2f)\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
 	printf("Co chcesz zrobic?\n");
 	printf("[1] Zamien automatycznie granice miejscami\n[2] Wpisz granice ponownie\n");
 
@@ -63,7 +62,7 @@ static void wczytajGranice(DaneWejscioweCalkowania* dane) {
 static void wczytajWariantObliczen(DaneWejscioweCalkowania* dane) {
 	printf("\nWYBRANE GRANICE PRZEDZIAŁU TO: [%.2f, %.2f]\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
 	printf("\n~~~~ Dostepne warianty obliczen ~~~~\n");
-	printf("[1] Liczba podprzedzialow (n)\n[2] Zadana dokladnosc (epsilon)\n");
+	printf("[1] Liczba podprzedzialow \n[2] Zadana dokladnosc\n");
 
 	int wybor = (int)wczytajLiczbe("Twoj wybor", 1, 2);
 

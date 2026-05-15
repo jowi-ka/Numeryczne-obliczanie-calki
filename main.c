@@ -5,7 +5,7 @@
 
 
 int main() {
-	const char* nazwyMetod[] = {
+	const char* nazwyMetod[LICZBA_METOD] = {
 		"Metoda Prostokatow",
 		"Metoda Trapezow",
 		"Metoda Monte Carlo"
@@ -16,13 +16,13 @@ int main() {
 	wczytajDane(&daneWejsciowe);
 
 
-	double wyniki[3];
+	double wyniki[LICZBA_METOD];
 	wyniki[0] = obliczMetodaProstokatow(daneWejsciowe);
 	wyniki[1] = obliczMetodaTrapezow(daneWejsciowe);
 	wyniki[2] = obliczMetodaMonteCarlo(daneWejsciowe);
 
-	generujRaport(stdout, &daneWejsciowe, wyniki, nazwyMetod, 3);
-	zapiszWynikiDoPliku(&daneWejsciowe, wyniki, nazwyMetod, 3);
+	generujRaport(stdout, &daneWejsciowe, wyniki, nazwyMetod, LICZBA_METOD);
+	zapiszWynikiDoPliku(&daneWejsciowe, wyniki, nazwyMetod, LICZBA_METOD);
 
 	return 0;
 }

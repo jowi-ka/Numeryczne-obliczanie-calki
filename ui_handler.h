@@ -4,6 +4,4 @@
 
 void wczytajDane(DaneWejscioweCalkowania* dane);
 
-double wczytajLiczbe(const char* komunikat, double min, double max);
-
 #endif

@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "reports.h"
 
-void generujRaport(FILE* strumien, const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod) {
+void generujRaport(FILE* strumien, const DaneWejscioweCalkowania* dane, const double* wyniki, const char** nazwyMetod, int liczbaMetod) {
 	fprintf(strumien, "\n--- RAPORT OBLICZEN NUMERYCZNYCH ---\n");
 	fprintf(strumien, "Przedzial: [%.2f, %.2f]\n", dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
 
