@@ -2,7 +2,6 @@
 #define INTEGRATION_H
 #define LICZBA_METOD 3
 
-
 typedef enum {
     METODA_PRZEDZIALY,
     METODA_DOKLADNOSC

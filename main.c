@@ -6,6 +6,13 @@
 
 
 int main() {
+
+	double (*metodyCalkowania[])(DaneWejscioweCalkowania) = {
+		obliczMetodaProstokatow,
+		obliczMetodaTrapezow,
+		obliczMetodaMonteCarlo
+	};
+
 	const char* nazwyMetod[LICZBA_METOD] = {
 		"Metoda Prostokatow",
 		"Metoda Trapezow",
@@ -17,11 +24,11 @@ int main() {
 	srand((unsigned int)time(NULL));
 	wczytajDane(&daneWejsciowe);
 
-
 	double wyniki[LICZBA_METOD];
-	wyniki[0] = obliczMetodaProstokatow(daneWejsciowe);
-	wyniki[1] = obliczMetodaTrapezow(daneWejsciowe);
-	wyniki[2] = obliczMetodaMonteCarlo(daneWejsciowe);
+
+	for (int i = 0; i < LICZBA_METOD; i++) {
+		wyniki[i] = metodyCalkowania[i](daneWejsciowe);
+	}
 
 	generujRaport(stdout, &daneWejsciowe, wyniki, nazwyMetod, LICZBA_METOD);
 	zapiszWynikiDoPliku(&daneWejsciowe, wyniki, nazwyMetod, LICZBA_METOD);
