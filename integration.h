@@ -1,6 +1,6 @@
 #ifndef INTEGRATION_H
 #define INTEGRATION_H
-#define LICZBA_METOD 3
+#define LICZBA_METOD (sizeof(metodyCalkowania) / sizeof(metodyCalkowania[0]);
 
 
 typedef enum {
