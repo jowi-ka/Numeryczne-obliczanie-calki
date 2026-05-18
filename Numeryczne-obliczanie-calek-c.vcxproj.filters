@@ -30,6 +30,9 @@
     <ClCompile Include="logic.c">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="menu.c">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="integration.h">
@@ -42,6 +45,9 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="logic.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>

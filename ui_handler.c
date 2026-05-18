@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "integration.h"
 #include "ui_handler.h"
+#include "menu.h"
 
 #define MIN_ZAKRES -1000000.0
 #define MAX_ZAKRES 1000000.0
@@ -78,13 +79,6 @@ static int wczytajLiczbeInt(const char* komunikat, int min, int max) {
 
         return wartosc;
     }
-}
-
-static void wyswietlMenu(const char* tytul, const char* opcje[], int liczbaOpcji) {
-	printf("\n%s\n", tytul);
-	for (int i = 0; i < liczbaOpcji; i++) {
-		printf("[%d] %s\n", i + 1, opcje[i]);
-	}
 }
 
 static void pobierzGranice(DaneWejscioweCalkowania* dane) {
