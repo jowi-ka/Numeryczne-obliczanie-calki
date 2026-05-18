@@ -13,8 +13,8 @@ typedef struct {
     WariantObliczen wariant;
 } DaneWejscioweCalkowania;
 
+typedef double (*MetodaCalkowania)(const DaneWejscioweCalkowania*);
 
-double obliczMetodaProstokatow(DaneWejscioweCalkowania dane);
-double obliczMetodaTrapezow(DaneWejscioweCalkowania dane);
-double obliczMetodaMonteCarlo(DaneWejscioweCalkowania dane);
-
+double obliczMetodaProstokatow(const DaneWejscioweCalkowania* dane);
+double obliczMetodaTrapezow(const DaneWejscioweCalkowania* dane);
+double obliczMetodaMonteCarlo(const DaneWejscioweCalkowania* dane);

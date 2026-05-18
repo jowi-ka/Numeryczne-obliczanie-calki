@@ -4,7 +4,6 @@
 #include "logic.h"
 #include "integration.h"
 
-
 void zamienLiczby(double* a, double* b) {
 	double temp = *a;
 	*a = *b;

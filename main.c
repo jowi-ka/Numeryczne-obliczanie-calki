@@ -5,13 +5,12 @@
 #include <time.h>
 #include "config.h"
 
-
 int main() {
 
-	double (*metodyCalkowania[])(DaneWejscioweCalkowania) = {
-		obliczMetodaProstokatow,
-		obliczMetodaTrapezow,
-		obliczMetodaMonteCarlo
+	MetodaCalkowania metodyCalkowania[] = {
+	obliczMetodaProstokatow,
+	obliczMetodaTrapezow,
+	obliczMetodaMonteCarlo
 	};
 
 	const char* nazwyMetod[LICZBA_METOD] = {
@@ -28,7 +27,7 @@ int main() {
 	double wyniki[LICZBA_METOD];
 
 	for (int i = 0; i < LICZBA_METOD; i++) {
-		wyniki[i] = metodyCalkowania[i](daneWejsciowe);
+		wyniki[i] = metodyCalkowania[i](&daneWejsciowe);
 	}
 
 	generujRaport(stdout, &daneWejsciowe, wyniki, nazwyMetod, LICZBA_METOD);
