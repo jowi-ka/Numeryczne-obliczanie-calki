@@ -5,6 +5,7 @@
 #include "integration.h"
 #include "ui_handler.h"
 #include "menu.h"
+#include "io_utils.h"
 
 #define MIN_ZAKRES -1000000.0
 #define MAX_ZAKRES 1000000.0
@@ -15,70 +16,6 @@
 
 static void pokazPrzedzial(const char* komunikat, const DaneWejscioweCalkowania* dane) {
 	printf(komunikat, dane->poczatekPrzedzialu, dane->koniecPrzedzialu);
-}
-
-static void wyczyscBufor(void) {
-	int c;
-	while ((c = getchar()) != '\n' && c != EOF);
-}
-
-static bool czyPobranoDouble(double* wartosc) {
-	
-	if (scanf("%lf", wartosc) != 1) {
-		wyczyscBufor();
-		return false;
-	}
-
-	wyczyscBufor();
-	return true;
-}
-
-static bool czyPobranoInt(int* wartosc) {
-	if (scanf("%d", wartosc) != 1) {
-		wyczyscBufor();
-		return false;
-	}
-
-	wyczyscBufor();
-	return true;
-}
-
-static double wczytajLiczbeDouble(const char* komunikat, double min, double max) {
-	double wartosc;
-	while (1) {
-		printf("%s: ", komunikat);
-		
-		if (!czyPobranoDouble(&wartosc)) {
-			printf("Blad: To nie jest liczba!\n");
-			continue;
-		}
-
-		if (!czyWZakresieDouble(wartosc, min, max)) {
-			printf("Blad: Poza zakresem [%.2f, %.2f]\n", min, max);
-			continue;
-		}
-
-		return wartosc;
-	}
-}
-
-static int wczytajLiczbeInt(const char* komunikat, int min, int max) {
-    int wartosc;
-    while (1) {
-        printf("%s: ", komunikat);
-
-        if (!czyPobranoInt(&wartosc)) {
-            printf("Blad: To nie jest liczba calkowita!\n");
-            continue;
-        }
-
-		if (!czyWZakresieInt(wartosc, min, max)) {
-            printf("Blad: Poza zakresem [%d, %d]\n", min, max);
-            continue;
-        }
-
-        return wartosc;
-    }
 }
 
 static void pobierzGranice(DaneWejscioweCalkowania* dane) {
