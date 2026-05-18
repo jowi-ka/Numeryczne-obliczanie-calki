@@ -7,6 +7,8 @@
 #include "menu.h"
 #include "io_utils.h"
 #include "config.h"
+#include "logic.h"
+
 
 static void pokazPrzedzial(const char* komunikat, const DaneWejscioweCalkowania* dane) {
 	printf(komunikat, dane->poczatekPrzedzialu, dane->koniecPrzedzialu);

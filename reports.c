@@ -22,7 +22,7 @@ void generujRaport(FILE* strumien, const DaneWejscioweCalkowania* dane, const do
 	fprintf(strumien, "+---------------------------+--------------------+\n\n");
 }
 
-void zapiszWynikiDoPliku(const DaneWejscioweCalkowania* dane, double* wyniki, const char** nazwyMetod, int liczbaMetod) {
+void zapiszWynikiDoPliku(const DaneWejscioweCalkowania* dane, const double* wyniki, const char** nazwyMetod, int liczbaMetod) {
 	FILE* plik = fopen("wyniki.txt", "w");
 	if (!plik) {
 		perror("Nie udalo sie otworzyc pliku do zapisu");

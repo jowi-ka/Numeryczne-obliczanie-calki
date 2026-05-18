@@ -1,4 +1,5 @@
 #pragma once
+#include <stdbool.h>
 
 void wyczyscBufor(void);
 bool czyPobranoDouble(double* wartosc);

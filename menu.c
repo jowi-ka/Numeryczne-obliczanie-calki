@@ -1,3 +1,4 @@
+#include <stdio.h>
 
 void wyswietlMenu(const char* tytul, const char* opcje[], int liczbaOpcji) {
 	printf("\n%s\n", tytul);

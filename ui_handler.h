@@ -1,7 +1,4 @@
-#ifndef UI_HANDLER_H
-#define UI_HANDLER_H
+#pragma once
 #include "integration.h"
 
 void wczytajDane(DaneWejscioweCalkowania* dane);
-
-#endif
