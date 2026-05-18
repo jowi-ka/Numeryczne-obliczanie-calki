@@ -21,24 +21,6 @@ static void wyczyscBufor(void) {
 	while ((c = getchar()) != '\n' && c != EOF);
 }
 
-static void zamienLiczby(double* a, double* b) {
-	double temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-static bool czyGranicePoprawne(DaneWejscioweCalkowania* dane) {
-	return dane->poczatekPrzedzialu <= dane->koniecPrzedzialu;
-}
-
-static bool czyWZakresieDouble(double x, double min, double max) {
-	return x >= min && x <= max;
-}
-
-static bool czyWZakresieInt(int x, int min, int max) {
-	return x >= min && x <= max;
-}
-
 static bool czyPobranoDouble(double* wartosc) {
 	
 	if (scanf("%lf", wartosc) != 1) {
@@ -51,7 +33,6 @@ static bool czyPobranoDouble(double* wartosc) {
 }
 
 static bool czyPobranoInt(int* wartosc) {
-
 	if (scanf("%d", wartosc) != 1) {
 		wyczyscBufor();
 		return false;

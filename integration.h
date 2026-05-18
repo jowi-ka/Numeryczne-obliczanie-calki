@@ -1,5 +1,4 @@
-#ifndef INTEGRATION_H
-#define INTEGRATION_H
+#pragma once
 #define LICZBA_METOD 3
 
 typedef enum {
@@ -20,4 +19,3 @@ double obliczMetodaProstokatow(DaneWejscioweCalkowania dane);
 double obliczMetodaTrapezow(DaneWejscioweCalkowania dane);
 double obliczMetodaMonteCarlo(DaneWejscioweCalkowania dane);
 
-#endif
