@@ -136,6 +136,7 @@
     <ClCompile Include="ui_handler.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config.h" />
     <ClInclude Include="integration.h" />
     <ClInclude Include="io_utils.h" />
     <ClInclude Include="logic.h" />

@@ -3,8 +3,6 @@
 #include <stdbool.h>
 #include "logic.h"
 
-
-
 void wyczyscBufor(void) {
 	int c;
 	while ((c = getchar()) != '\n' && c != EOF);

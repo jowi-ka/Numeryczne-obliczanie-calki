@@ -6,13 +6,7 @@
 #include "ui_handler.h"
 #include "menu.h"
 #include "io_utils.h"
-
-#define MIN_ZAKRES -1000000.0
-#define MAX_ZAKRES 1000000.0
-#define MIN_EPSILON 0.0000001
-#define MAX_EPSILON 1.0
-#define MAX_PODPRZEDZIALOW 10000000
-
+#include "config.h"
 
 static void pokazPrzedzial(const char* komunikat, const DaneWejscioweCalkowania* dane) {
 	printf(komunikat, dane->poczatekPrzedzialu, dane->koniecPrzedzialu);

@@ -3,6 +3,7 @@
 #include "reports.h"
 #include "ui_handler.h"
 #include <time.h>
+#include "config.h"
 
 
 int main() {
