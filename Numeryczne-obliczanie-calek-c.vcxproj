@@ -128,12 +128,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="integration.c" />
+    <ClCompile Include="io_utils.c" />
+    <ClCompile Include="logic.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="menu.c" />
     <ClCompile Include="reports.c" />
     <ClCompile Include="ui_handler.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config.h" />
     <ClInclude Include="integration.h" />
+    <ClInclude Include="io_utils.h" />
+    <ClInclude Include="logic.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="reports.h" />
     <ClInclude Include="ui_handler.h" />
   </ItemGroup>

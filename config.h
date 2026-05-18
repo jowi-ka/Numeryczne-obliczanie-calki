@@ -1,0 +1,8 @@
+#pragma once
+
+#define MIN_ZAKRES -1000000.0
+#define MAX_ZAKRES 1000000.0
+#define MIN_EPSILON 0.0000001
+#define MAX_EPSILON 1.0
+#define MAX_PODPRZEDZIALOW 10000000
+#define LICZBA_METOD 3
